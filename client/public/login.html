@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    Email <input name="email" type="text">
+    Password <input name="password" type="password">
+    <button>Login</button>
+  </div>
+  <script type="text/javascript">
+    const login = (email, password) => {
+      return fetch('/api/login', {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        body: JSON.stringify({email, password})
+      }).then(response => response.json())
+    }
+    const $ = q => document.querySelector(q);
+    $("button").onclick = function(e){
+      e.preventDefault();
+      login($("[name=email]").value, $("[name=password]").value).then(result => {
+        console.log(result);
+        if(result.success){
+          window.location.href = "/"
+        }
+      });
+    }
+  </script>
+</body>
+</html>
